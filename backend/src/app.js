@@ -1,11 +1,11 @@
-const express = require('express');
-const dotenv = require('dotenv');
+const express = require("express");
+const dotenv = require("dotenv");
 const app = express();
 const cors = require("cors");
 
 dotenv.config();
-app.use(express.urlencoded({extended : true}));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: "40kb" }));
+app.use(express.json({ limit: "40kb" }));
 app.use(cors());
 
 app.get("/", (req, res) => {
@@ -19,4 +19,4 @@ app.use((err, req, res, next) => {
     .json({ success: false, message: err.message || "Internal Server Error" });
 });
 
-module.exports = {app};
+module.exports = { app };
