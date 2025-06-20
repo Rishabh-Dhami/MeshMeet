@@ -12,6 +12,8 @@ app.get("/", (req, res) => {
   res.send("Welcome to MeshMeet backend");
 });
 
+app.use("/api/v1/user", userRouter);
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res
