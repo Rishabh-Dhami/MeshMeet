@@ -3,11 +3,13 @@ const dotenv = require("dotenv");
 const app = express();
 const cors = require("cors");
 const { UserRouter } = require("./routes/user.routes"); // Import user routes
+const cookieParser = require("cookie-parser");
 
 dotenv.config();
 app.use(express.urlencoded({ extended: true, limit: "40kb" }));
 app.use(express.json({ limit: "40kb" }));
 app.use(cors());
+app.use(cookieParser());
 
 // Root endpoint
 app.get("/", (req, res) => {
@@ -15,7 +17,7 @@ app.get("/", (req, res) => {
 });
 
 // User-related API routes
-app.use("/api/v1/user", UserRouter);
+app.use("/api/v1/users", UserRouter);
 
 // Global error handler
 app.use((err, req, res, next) => {

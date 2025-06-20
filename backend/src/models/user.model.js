@@ -35,7 +35,7 @@ userSchema.methods.generateAccessToken = function () {
   return accessToken;
 };
 
-userSchema.methods.generateRefershToken = function () {
+userSchema.methods.generateRefreshToken = function () {
   const refreshToken = jwt.sign(
     { _id: this._id, username: this.username },
     process.env.REFRESH_TOKEN_SECRET,
@@ -53,7 +53,7 @@ userSchema.methods.comparePassword = async function (plainTextPassword) {
   }
 };
 
-userSchema.pre("save", async () => {
+userSchema.pre("save", async function(next){
   if (this.isModified("password") || this.isNew) {
     try {
       const salt = await bcrypt.genSalt(10);

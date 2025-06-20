@@ -10,4 +10,4 @@ function initSocket(server) {
   return io;
 }
 
-exports.module = { initSocket };
+module.exports = { initSocket };
