@@ -13,4 +13,4 @@ connectDB().then(() => {
 
 const io = initSocket(server);
 
-module.exports = { server, io };
+module.exports = { server};
