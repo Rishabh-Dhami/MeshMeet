@@ -35,13 +35,14 @@ userSchema.methods.generateAccessToken = function () {
   return accessToken;
 };
 
-userSchema.methods.generateRefreshToken = function () {
+userSchema.methods.generateRefreshToken = async function () {
   const refreshToken = jwt.sign(
     { _id: this._id, username: this.username },
     process.env.REFRESH_TOKEN_SECRET,
     { expiresIn: "7d" }
   );
   this.refreshToken = refreshToken;
+  await this.save();
   return refreshToken;
 };
 
