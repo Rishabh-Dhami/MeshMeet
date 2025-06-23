@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  
   const [showHero, setShowHero] = useState(false);
   const [showImage, setShowImage] = useState(false);
 
@@ -14,47 +14,8 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen w-full h-screen bg-gradient-to-br from-[#1f1f1f] via-[#4b6cb7] to-[#000000] text-white flex flex-col">
-      <nav className="w-full flex flex-col md:flex-row justify-between items-center py-4 px-4 sm:px-8 md:px-12 lg:px-16 backdrop-blur-md shadow-md gap-4 md:gap-0 relative">
-        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-purple-300 drop-shadow-lg">
-          MeshMeet
-        </h1>
-        <button
-          className="md:hidden absolute right-4 top-4 z-20 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-400"
-          onClick={() => setMenuOpen((prev) => !prev)}
-          aria-label="Toggle menu"
-        >
-          <span className="block w-6 h-0.5 bg-white mb-1"></span>
-          <span className="block w-6 h-0.5 bg-white mb-1"></span>
-          <span className="block w-6 h-0.5 bg-white"></span>
-        </button>
-        {/* Menu for desktop/tablet */}
-        <div className="hidden md:flex flex-wrap justify-center items-center gap-3 lg:gap-5">
-          <button className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-indigo-600 hover:to-purple-500 transition text-white font-semibold shadow-md">
-            Join as Guest
-          </button>
-          <button className="px-4 py-2 rounded-lg border border-purple-400 hover:bg-purple-600 transition text-purple-200 font-semibold">
-            Register
-          </button>
-          <button className="px-4 py-2 rounded-lg border border-indigo-400 hover:bg-indigo-600 transition text-indigo-200 font-semibold">
-            Login
-          </button>
-        </div>
-        {/* Slide-down menu for mobile/tablet */}
-        {menuOpen && (
-          <div className="md:hidden absolute top-full left-0 w-full bg-[#232946] bg-opacity-95 flex flex-col items-center gap-3 py-4 z-10 shadow-lg animate-fadeInDown">
-            <button className="w-11/12 px-3 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-indigo-600 hover:to-purple-500 transition text-white font-semibold shadow-md">
-              Join as Guest
-            </button>
-            <button className="w-11/12 px-3 py-2 rounded-lg border border-purple-400 hover:bg-purple-600 transition text-purple-200 font-semibold">
-              Register
-            </button>
-            <button className="w-11/12 px-3 py-2 rounded-lg border border-indigo-400 hover:bg-indigo-600 transition text-indigo-200 font-semibold">
-              Login
-            </button>
-          </div>
-        )}
-      </nav>
+    <main className="w-full h-[100dvh] min-h-0 max-h-[100dvh] overflow-hidden  text-white flex flex-col">
+     
       <div className="flex-1 w-full flex flex-col-reverse lg:flex-row lg:justify-between items-center px-4 sm:px-8 md:px-12 lg:px-16 py-8 md:py-0 gap-8 lg:gap-0 justify-center">
         {/* Hero Text with animation from left */}
         <div className={`w-full lg:w-[55%] mb-6 lg:mb-0 flex flex-col items-center md:items-start text-center md:text-left ${showHero ? "animate-slideInLeft" : "opacity-0"}`}>
