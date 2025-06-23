@@ -34,7 +34,6 @@ const options = {
   sameSite: "None",
   maxAge: 7 * 24 * 60 * 60 * 1000,
 };
-
 const register = asyncHandler(async (req, res, next) => {
   const { name, username, password } = req.body;
 
@@ -126,4 +125,70 @@ const login = asyncHandler(async (req, res, next) => {
     );
 });
 
-module.exports = { register, login };
+const logout = asyncHandler(async (req, res, next) => {
+  const { _id } = req?.user;
+
+  if (!_id) {
+    throw new ApiError(401, "Unauthorized Request");
+  }
+
+  const user = await User.findByIdAndUpdate(
+    _id,
+    { refreshToken: null },
+    { new: true },
+  );
+
+  if (!user) {
+    throw new ApiError(404, "User not found!");
+  }
+
+  return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponse(200, "User logout successfully!", user));
+});
+
+const refreshAccessToken = asyncHandler(async (req, res, next) => {
+  try {
+    const token = req.cookies?.refreshToken || req.headers['x-refresh-token'] || req.query.refreshToken;
+
+    if (!token) {
+      throw new ApiError(401, "Unauthorized: No refresh token provided!");
+    }
+
+    let payload;
+    try {
+      payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+    } catch (err) {
+      if (err.name === 'TokenExpiredError') {
+        throw new ApiError(401, "Unauthorized: Refresh token expired!");
+      }
+      throw new ApiError(401, "Unauthorized: Invalid refresh token!");
+    }
+
+    const user = await User.findById(payload._id);
+    if (!user) {
+      throw new ApiError(404, "User not found!");
+    }
+
+    
+    const { refreshToken, accessToken } = await generateAccessTokenAndRefreshToken(user._id);
+
+    return res
+      .status(200)
+      .cookie("accessToken", accessToken, options)
+      .cookie("refreshToken", refreshToken, options)
+      .json(
+        new ApiResponse(200, "AccessToken refreshed successfully", {
+          user,
+          refreshToken,
+          accessToken,
+        })
+      );
+  } catch (error) {
+    next(error);
+  }
+});
+
+module.exports = { register, login, logout, refreshAccessToken };
