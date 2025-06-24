@@ -18,8 +18,8 @@ Router.route("/register").post(register);
 // User logout route (GET): Requires authentication, clears tokens and logs out user
 Router.route("/logout").get(verifyUser, logout);
 
-// Refresh access token route (GET): Requires authentication, issues new tokens if refresh token is valid
-Router.route("/refresh-accesstoken").get(verifyUser, refreshAccessToken);
+// Refresh access token route (GET): Issues new tokens if refresh token is valid (no access token required)
+Router.route("/refresh-accesstoken").get(refreshAccessToken);
 
 // Export the router for use in main app
 module.exports = {

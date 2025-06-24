@@ -2,6 +2,7 @@ const { ApiError } = require("../utils/ApiError");
 const { asyncHandler } = require("../utils/asyncHandler.js");
 const { User } = require("../models/user.model.js");
 const { ApiResponse } = require("../utils/ApiResponse.js");
+const jwt = require('jsonwebtoken');
 
 // Generate access and refresh tokens for a user
 async function generateAccessTokenAndRefreshToken(user_id) {
@@ -160,6 +161,7 @@ const refreshAccessToken = asyncHandler(async (req, res, next) => {
     let payload;
     try {
       payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+      
     } catch (err) {
       if (err.name === 'TokenExpiredError') {
         throw new ApiError(401, "Unauthorized: Refresh token expired!");
@@ -167,13 +169,22 @@ const refreshAccessToken = asyncHandler(async (req, res, next) => {
       throw new ApiError(401, "Unauthorized: Invalid refresh token!");
     }
 
+    console.log("payload", payload)
+
     const user = await User.findById(payload._id);
     if (!user) {
       throw new ApiError(404, "User not found!");
     }
 
-    
+    // Check if the refresh token matches the one stored in the database
+    if (user.refreshToken !== token) {
+      throw new ApiError(401, "Unauthorized: Refresh token mismatch!");
+    }
+
     const { refreshToken, accessToken } = await generateAccessTokenAndRefreshToken(user._id);
+    // Save the new refresh token to the user document
+    user.refreshToken = refreshToken;
+    await user.save();
 
     return res
       .status(200)
