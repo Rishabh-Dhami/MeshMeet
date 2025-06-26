@@ -1,11 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import api from "@/utils/axiosInstance";
 
 export default function LoginPage() {
   // Only username and password for login
   const [form, setForm] = useState({ username: "", password: "" });
   const [remember, setRemember] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const router = useRouter();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -15,15 +20,41 @@ export default function LoginPage() {
     setRemember(e.target.checked);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(form);
-    // TODO: Handle login (API call, JWT, etc.)
-    // Send { username, password } to backend
+    setErrorMsg("");
+    setSuccessMsg("");
+    try {
+      const response = await api.post("/users/login", form);
+      console.log(response)
+      if (response?.data?.info?.accessToken) {
+        localStorage.setItem("accessToken", response.data.info.accessToken);
+        setSuccessMsg("Login successful! Redirecting...");
+        setTimeout(() => router.push("/"), 1200);
+      }
+    } catch (error) {
+      let msg = "Login failed. Please try again.";
+      if (error?.response?.data?.message) {
+        msg = error.response.data.message;
+      }
+      setErrorMsg(msg);
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f0f0f] via-[#4b6cb7] to-black p-4">
+      {/* Animated alert for success or error, right side */}
+      {(successMsg || errorMsg) && (
+        <div className={`fixed top-8 right-8 z-[100] px-6 py-3 rounded-2xl shadow-2xl text-white font-semibold text-lg flex items-center gap-2 animate-slideInRight ${successMsg ? 'bg-gradient-to-r from-green-500 to-emerald-600' : 'bg-gradient-to-r from-red-500 to-pink-600'}`}
+          style={{ minWidth: '220px', maxWidth: '90vw', transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)' }}>
+          {successMsg ? (
+            <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+          ) : (
+            <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+          )}
+          {successMsg || errorMsg}
+        </div>
+      )}
       <div className="bg-white/10 border border-white/20 backdrop-blur-md rounded-3xl shadow-lg w-full max-w-md p-8">
         <h2 className="text-3xl font-bold text-white mb-6 text-center">
           Welcome Back
@@ -75,6 +106,15 @@ export default function LoginPage() {
           </a>
         </p>
       </div>
+      <style jsx global>{`
+        @keyframes slideInRight {
+          0% { opacity: 0; transform: translateX(60px); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        .animate-slideInRight {
+          animation: slideInRight 0.7s cubic-bezier(0.4,0,0.2,1) both;
+        }
+      `}</style>
     </div>
   );
 }
