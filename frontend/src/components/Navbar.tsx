@@ -53,7 +53,7 @@ function Navbar() {
             {alert.message}
           </div>
         )}
-      <nav className="w-full fixed top-0 left-0 z-30 flex flex-col md:flex-row justify-between items-center py-4 px-4 sm:px-8 md:px-12 lg:px-16 backdrop-blur-md shadow-md gap-4 md:gap-0 bg-transparent">
+      <nav className="w-full fixed top-0 left-0 z-30 flex flex-col md:flex-row justify-between items-start md:items-center py-4 px-4 sm:px-8 md:px-12 lg:px-16 backdrop-blur-md shadow-md gap-4 md:gap-0 bg-transparent">
         <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-purple-300 drop-shadow-lg">
           MeshMeet
         </h1>
@@ -84,16 +84,16 @@ function Navbar() {
         {/* Slide-down menu for mobile/tablet */}
         {menuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-[#232946] bg-opacity-95 flex flex-col items-center gap-3 py-4 z-50 shadow-lg animate-fadeInDown">
-            <Link href="#" className="w-11/12 px-3 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 hover:scale-105 hover:shadow-xl hover:bg-gradient-to-l hover:from-indigo-600 hover:to-purple-500 transition-all duration-200 text-white font-semibold shadow-md" onClick={() => setMenuOpen(false)}>Join as Guest</Link>
+            <Link href="#" className="w-11/12 px-3 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 hover:scale-105 hover:shadow-xl hover:bg-gradient-to-l hover:from-indigo-600 hover:to-purple-500 transition-all duration-200 text-white text-center font-semibold shadow-md" onClick={() => setMenuOpen(false)}>Join as Guest</Link>
             {isLoggedIn ? (
               <>
                 {/* Add more authenticated links here if needed */}
-                <button onClick={handleLogout} className="w-11/12 px-3 py-2 rounded-lg border border-red-400 text-red-200 font-semibold bg-transparent hover:bg-gradient-to-r hover:from-red-500 hover:to-pink-500 hover:text-white hover:border-transparent hover:scale-105 hover:shadow-xl transition-all duration-200">Logout</button>
+                <button onClick={handleLogout} className="w-11/12 px-3 py-2 rounded-lg border border-red-400 text-red-200 font-semibold bg-transparent hover:bg-gradient-to-r hover:from-red-500 hover:to-pink-500 hover:text-white hover:border-transparent hover:scale-105 hover:shadow-xl transition-all duration-200 text-center">Logout</button>
               </>
             ) : (
               <>
-                <Link href="/signup" className="w-11/12 px-3 py-2 rounded-lg border border-purple-400 text-purple-200 font-semibold bg-transparent hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-600 hover:text-white hover:border-transparent hover:scale-105 hover:shadow-xl transition-all duration-200" onClick={() => setMenuOpen(false)}>Register</Link>
-                <Link href="/login" className="w-11/12 px-3 py-2 rounded-lg border border-indigo-400 text-indigo-200 font-semibold bg-transparent hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-500 hover:text-white hover:border-transparent hover:scale-105 hover:shadow-xl transition-all duration-200" onClick={() => setMenuOpen(false)}>Login</Link>
+                <Link href="/signup" className="w-11/12 px-3 py-2 rounded-lg border border-purple-400 text-purple-200 font-semibold bg-transparent hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-600 hover:text-white hover:border-transparent hover:scale-105 hover:shadow-xl transition-all duration-200 text-center" onClick={() => setMenuOpen(false)}>Register</Link>
+                <Link href="/login" className="w-11/12 px-3 py-2 rounded-lg border border-indigo-400 text-indigo-200 font-semibold bg-transparent hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-500 hover:text-white hover:border-transparent hover:scale-105 hover:shadow-xl transition-all duration-200 text-center" onClick={() => setMenuOpen(false)}>Login</Link>
               </>
             )}
           </div>
