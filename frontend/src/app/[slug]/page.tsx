@@ -181,50 +181,44 @@ export default function VideoMeeting() {
 
             {/* Bottom Controls */}
             <div className="absolute bottom-3 md:bottom-6 left-1/2 -translate-x-1/2 flex items-center space-x-2 md:space-x-4">
-              <Button
-                size="sm"
-                variant={isAudioEnabled ? "secondary" : "destructive"}
+              <button
                 onClick={toggleAudio}
-                className="rounded-full h-10 w-10 md:h-14 md:w-14 p-0 relative"
+                className=" py-3 px-3 relative bg-red-500 rounded-full"
                 aria-label="Toggle microphone"
               >
                 {isAudioEnabled ? (
-                  <Mic className="h-4 w-4 md:h-6 md:w-6" />
+                  <i className="fa-solid fa-microphone text-xl px-1 text-white"></i>
                 ) : (
-                  <MicOff className="h-4 w-4 md:h-6 md:w-6" />
+                   <i className="fa-solid fa-microphone-slash text-xl text-white"></i>
                 )}
                 {!isAudioEnabled && (
                   <div className="absolute -top-1 -right-1 w-3 h-3 md:w-4 md:h-4 bg-red-500 rounded-full flex items-center justify-center">
                     <span className="text-white text-xs font-bold">!</span>
                   </div>
                 )}
-              </Button>
-              <Button
-                size="sm"
-                variant={isVideoEnabled ? "secondary" : "destructive"}
+              </button>
+              <button
                 onClick={toggleVideo}
-                className="rounded-full h-10 w-10 md:h-14 md:w-14 p-0 relative"
+                className="py-3 px-3 relative bg-red-500 rounded-full"
                 aria-label="Toggle camera"
               >
                 {isVideoEnabled ? (
-                  <Video className="h-4 w-4 md:h-6 md:w-6" />
+                 <i className="fa-solid fa-video text-xl px-1 text-white"></i>
                 ) : (
-                  <VideoOff className="h-4 w-4 md:h-6 md:w-6" />
+                   <i className="fa-solid fa-video-slash text-xl text-white"></i>
                 )}
                 {!isVideoEnabled && (
                   <div className="absolute -top-1 -right-1 w-3 h-3 md:w-4 md:h-4 bg-red-500 rounded-full flex items-center justify-center">
                     <span className="text-white text-xs font-bold">!</span>
                   </div>
                 )}
-              </Button>
-              <Button
-                size="sm"
-                variant="secondary"
-                className="rounded-full h-10 w-10 md:h-14 md:w-14 p-0"
+              </button>
+              <button
+                className="py-3 px-3 relative bg-red-500 rounded-full"
                 aria-label="Screen share"
               >
-                <Monitor className="h-4 w-4 md:h-6 md:w-6" />
-              </Button>
+                <i className="fa-solid fa-desktop text-xl text-white"></i>
+              </button>
             </div>
           </div>
 
