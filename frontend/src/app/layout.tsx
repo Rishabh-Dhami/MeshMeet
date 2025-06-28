@@ -16,6 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
        <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -23,6 +24,7 @@ export default function RootLayout({
           crossOrigin="anonymous"
           referrerPolicy="no-referrer"
         />
+       </head> 
       <body
         className={`${roboto.variable} antialiased bg-gradient-to-br from-[#1f1f1f] via-[#4b6cb7] to-[#000000]`}
       >

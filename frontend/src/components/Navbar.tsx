@@ -68,14 +68,15 @@ function Navbar() {
         </button>
         {/* Menu for desktop/tablet */}
         <div className="hidden md:flex flex-wrap justify-center items-center gap-3 lg:gap-5">
-          <Link href="#" className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 hover:scale-105 hover:shadow-xl hover:bg-gradient-to-l hover:from-indigo-600 hover:to-purple-500 transition-all duration-200 text-white font-semibold shadow-md">Join as Guest</Link>
           {isLoggedIn ? (
             <>
+              <Link href="/history" className="px-4 py-2 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105 hover:shadow-xl hover:bg-gradient-to-l hover:from-emerald-600 hover:to-green-500 transition-all duration-200 text-white font-semibold shadow-md"><i className="fa-solid fa-clock-rotate-left"></i> History</Link>
               {/* Add more authenticated links here if needed */}
               <button onClick={handleLogout} className="px-4 py-2 rounded-lg border border-red-400 text-red-200 font-semibold bg-transparent hover:bg-gradient-to-r hover:from-red-500 hover:to-pink-500 hover:text-white hover:border-transparent hover:scale-105 hover:shadow-xl transition-all duration-200">Logout</button>
             </>
           ) : (
             <>
+              <Link href="#" className="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 hover:scale-105 hover:shadow-xl hover:bg-gradient-to-l hover:from-indigo-600 hover:to-purple-500 transition-all duration-200 text-white font-semibold shadow-md">Join as Guest</Link>
               <Link href="/signup" className="px-4 py-2 rounded-lg border border-purple-400 text-purple-200 font-semibold bg-transparent hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-600 hover:text-white hover:border-transparent hover:scale-105 hover:shadow-xl transition-all duration-200" onClick={() => setMenuOpen(false)}>Register</Link>
               <Link href="/login" className="px-4 py-2 rounded-lg border border-indigo-400 text-indigo-200 font-semibold bg-transparent hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-500 hover:text-white hover:border-transparent hover:scale-105 hover:shadow-xl transition-all duration-200" onClick={() => setMenuOpen(false)}>Login</Link>
             </>
@@ -84,14 +85,15 @@ function Navbar() {
         {/* Slide-down menu for mobile/tablet */}
         {menuOpen && (
           <div className="md:hidden absolute top-full left-0 w-full bg-[#232946] bg-opacity-95 flex flex-col items-center gap-3 py-4 z-50 shadow-lg animate-fadeInDown">
-            <Link href="#" className="w-11/12 px-3 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 hover:scale-105 hover:shadow-xl hover:bg-gradient-to-l hover:from-indigo-600 hover:to-purple-500 transition-all duration-200 text-white text-center font-semibold shadow-md" onClick={() => setMenuOpen(false)}>Join as Guest</Link>
             {isLoggedIn ? (
               <>
+                <Link href="/history" className="w-11/12 px-3 py-2 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 hover:scale-105 hover:shadow-xl hover:bg-gradient-to-l hover:from-emerald-600 hover:to-green-500 transition-all duration-200 text-white text-center font-semibold shadow-md" onClick={() => setMenuOpen(false)}><i className="fa-solid fa-clock-rotate-left  "></i> History</Link>
                 {/* Add more authenticated links here if needed */}
                 <button onClick={handleLogout} className="w-11/12 px-3 py-2 rounded-lg border border-red-400 text-red-200 font-semibold bg-transparent hover:bg-gradient-to-r hover:from-red-500 hover:to-pink-500 hover:text-white hover:border-transparent hover:scale-105 hover:shadow-xl transition-all duration-200 text-center">Logout</button>
               </>
             ) : (
               <>
+                <Link href="#" className="w-11/12 px-3 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 hover:scale-105 hover:shadow-xl hover:bg-gradient-to-l hover:from-indigo-600 hover:to-purple-500 transition-all duration-200 text-white text-center font-semibold shadow-md" onClick={() => setMenuOpen(false)}>Join as Guest</Link>
                 <Link href="/signup" className="w-11/12 px-3 py-2 rounded-lg border border-purple-400 text-purple-200 font-semibold bg-transparent hover:bg-gradient-to-r hover:from-purple-500 hover:to-indigo-600 hover:text-white hover:border-transparent hover:scale-105 hover:shadow-xl transition-all duration-200 text-center" onClick={() => setMenuOpen(false)}>Register</Link>
                 <Link href="/login" className="w-11/12 px-3 py-2 rounded-lg border border-indigo-400 text-indigo-200 font-semibold bg-transparent hover:bg-gradient-to-r hover:from-indigo-600 hover:to-purple-500 hover:text-white hover:border-transparent hover:scale-105 hover:shadow-xl transition-all duration-200 text-center" onClick={() => setMenuOpen(false)}>Login</Link>
               </>
