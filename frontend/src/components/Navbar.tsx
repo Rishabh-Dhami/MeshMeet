@@ -29,11 +29,17 @@ function Navbar() {
     }, []);
 
     const handleLogout = () => {
-      localStorage.removeItem('accessToken');
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('accessToken');
+      }
       setIsLoggedIn(false);
       setMenuOpen(false);
       setAlert({ show: true, type: 'success', message: 'Logged out successfully!' });
-      setTimeout(() => setAlert({ show: false, type: '', message: '' }), 2000);
+      setTimeout(() => {
+        if (typeof window !== 'undefined') {
+          window.location.href = "/";
+        }
+      }, 1200);
     };
 
     if (loading) {

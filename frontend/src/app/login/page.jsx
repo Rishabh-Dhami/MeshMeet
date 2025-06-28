@@ -30,7 +30,7 @@ export default function LoginPage() {
       if (response?.data?.info?.accessToken) {
         localStorage.setItem("accessToken", response.data.info.accessToken);
         setSuccessMsg("Login successful! Redirecting...");
-        setTimeout(() => router.push("/"), 1200);
+        setTimeout(() => router.push("/home"), 1200);
       }
     } catch (error) {
       let msg = "Login failed. Please try again.";

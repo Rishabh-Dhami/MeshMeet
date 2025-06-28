@@ -25,7 +25,7 @@ export default function SignUpPage() {
         localStorage.setItem('accessToken', response.data.info.accessToken);
       }
       setSuccessMsg("Registration successful! Redirecting...");
-      setTimeout(() => router.push("/"), 1500);
+      setTimeout(() => router.push("/home"), 1500);
     } catch (error: any) {
       let msg = "Registration failed. Please try again.";
       if (error?.response?.data?.message) {
