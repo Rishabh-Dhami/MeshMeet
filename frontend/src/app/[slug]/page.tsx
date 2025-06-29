@@ -14,6 +14,7 @@ import {
   Share2,
   Edit3,
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 // Modern Badge component for status display
 const Badge: React.FC<{ children: React.ReactNode; className?: string }> = ({
@@ -131,9 +132,14 @@ export default function VideoMeeting() {
       .toUpperCase();
 
   return (
-    <div className="mt-5 md:mt-0 flex flex-col lg:flex-row justify-center items-center min-h-screen px-4 md:px-8  gap-2  lg:gap-10">
+    <div className="mt-5 md:mt-0 flex flex-col lg:flex-row overflow-hidden justify-center items-center min-h-screen px-4 md:px-8  gap-2  lg:gap-10">
       {/* Left Side - Video Preview */}
-      <div className="w-full lg:w-[64%] flex items-center justify-center mt-6 md:mt-15">
+      <motion.div
+        className="w-full lg:w-[64%] flex items-center justify-center mt-6 md:mt-15"
+        initial={{ opacity: 0, x: -60 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.9, ease: [0.4, 0, 0.2, 1] }}
+      >
         <div className="relative w-full  lg:max-w-3xl">
           {/* Video Container */}
           <div
@@ -246,9 +252,14 @@ export default function VideoMeeting() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
       {/* Right Side - Meeting Controls */}
-      <div className="w-full lg:w-[40%] xl:w-[28rem] bg-white/10 border border-white/20 backdrop-blur-md rounded-2xl md:rounded-3xl shadow-lg text-white mt-6 lg:mt-0 lg:py-4">
+      <motion.div
+        className="w-full lg:w-[40%] xl:w-[28rem] bg-white/10 border border-white/20 backdrop-blur-md rounded-2xl md:rounded-3xl shadow-lg text-white mt-6 lg:mt-0 lg:py-4"
+        initial={{ opacity: 0, x: 60 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.9, ease: [0.4, 0, 0.2, 1] }}
+      >
         {/* Header */}
         <div className="px-8 py-4 border-b border-gray-200">
           <div className="flex items-center justify-between mb-2">
@@ -314,7 +325,7 @@ export default function VideoMeeting() {
             <span className="font-medium">Share meeting link</span>
           </Button>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
