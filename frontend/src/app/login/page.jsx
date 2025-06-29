@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/utils/axiosInstance";
+import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   // Only username and password for login
@@ -10,6 +11,7 @@ export default function LoginPage() {
   const [remember, setRemember] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [successMsg, setSuccessMsg] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleChange = (e) => {
@@ -69,15 +71,27 @@ export default function LoginPage() {
             className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-400"
             required
           />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-400"
-            required
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Password"
+              value={form.password}
+              onChange={handleChange}
+              className="w-full px-4 py-3 rounded-xl bg-white/20 text-white placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-400 pr-12"
+              required
+            />
+            <button
+              type="button"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-white focus:outline-none"
+              tabIndex={-1}
+              onClick={() => setShowPassword((prev) => !prev)}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+              style={{marginTop: 0}}
+            >
+              {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+            </button>
+          </div>
           <div className="flex items-center justify-between text-sm text-gray-300">
             <label className="flex items-center space-x-2">
               <input
@@ -100,7 +114,7 @@ export default function LoginPage() {
           </button>
         </form>
         <p className="text-gray-300 mt-4 text-center text-sm">
-          Don’t have an account?{" "}
+          Don't have an account?{" "}
           <a href="/signup" className="text-purple-300 underline">
             Sign up
           </a>
