@@ -13,6 +13,8 @@ function initSocket(server) {
   });
 
   io.on("connection", (socket) => {
+    console.log("connted to socket");
+    
     socket.on("join-call", (path) => {
       if (!path || typeof path !== "string") return;
 
