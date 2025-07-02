@@ -1,20 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Video,
   Link as Rocket,
   ArrowRight,
   Sparkles,
   Users,
-  Shield,
-  Zap,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [meetingCode, setMeetingCode] = useState("");
   const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = typeof window !== "undefined" && !!localStorage.getItem("accessToken");
+    if(!token){
+      router.push('/login');
+    }
+  },[])
 
   const handleJoinMeeting = () => {
     if (meetingCode.trim()) {

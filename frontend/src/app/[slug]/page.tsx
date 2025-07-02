@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams , useRouter} from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
   Video,
@@ -31,6 +31,15 @@ const Badge: React.FC<{ children: React.ReactNode; className?: string }> = ({
 );
 
 export default function VideoMeeting() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const token = typeof window !== "undefined" && !!localStorage.getItem("accessToken");
+    if(!token){
+      router.push("/login");
+    }
+  },[])
+
   const params = useParams();
   const slug = Array.isArray(params?.slug) ? params.slug[0] : params?.slug;
 
