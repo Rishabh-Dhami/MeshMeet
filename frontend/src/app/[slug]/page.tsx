@@ -60,6 +60,8 @@ export default function VideoMeeting() {
   const [isScreenSharing, setIsScreenSharing] = useState<boolean>(false);
   const [muteNotification, setMuteNotification] = useState<string>("");
   const [permissionError, setPermissionError] = useState<string | null>(null);
+  // Modern animated alert for screen sharing errors
+  const [alert, setAlert] = useState<{ message: string; type: 'error' | 'info' | 'success' } | null>(null);
 
   useEffect(() => {
     // Request camera/mic permissions based on toggles
@@ -162,7 +164,8 @@ export default function VideoMeeting() {
         setIsScreenSharing(false);
       };
     } catch (err) {
-      alert("Screen sharing was cancelled or denied.");
+      setAlert({ message: "Screen sharing was cancelled or denied.", type: "error" });
+      setTimeout(() => setAlert(null), 2500);
     }
   };
 
@@ -220,15 +223,16 @@ export default function VideoMeeting() {
           <div
             className={`w-full relative aspect-video bg-gray-900 rounded-2xl md:rounded-3xl overflow-hidden shadow-xl transition-all duration-300 h-[320px] md:h-[400px] lg:h-[440px]`}
           >
-            {isVideoEnabled ? (
-              <video
-                ref={mediaRef}
-                autoPlay
-                muted
-                playsInline
-                className="w-full h-full object-cover"
-              />
-            ) : (
+            {/* Always render the video element, hide with CSS if video is disabled */}
+            <video
+              ref={mediaRef}
+              autoPlay
+              muted
+              playsInline
+              className={`w-full h-full object-cover ${!isVideoEnabled ? 'hidden' : ''}`}
+            />
+            {/* Show initials if video is disabled */}
+            {!isVideoEnabled && (
               <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
                 <div className="text-center">
                   <div className="w-16 h-16 md:w-24 md:h-24 lg:w-32 lg:h-32 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-5 lg:mb-6">
@@ -245,7 +249,7 @@ export default function VideoMeeting() {
 
             {/* Permission Dialog Overlay */}
             {showPermissionDialog && (
-              <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-4 md:p-8">
+              <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-4 md:p-8 z-20">
                 <div className="bg-gray-800 rounded-xl md:rounded-2xl p-4 md:p-8 max-w-xs md:max-w-md text-center">
                   <h3 className="text-white text-base md:text-2xl font-semibold mb-3 md:mb-6">
                     Do you want people to see and hear you in the meeting?
@@ -436,6 +440,41 @@ export default function VideoMeeting() {
           {muteNotification}
         </div>
       )}
+
+      {/* Modern Animated Alert */}
+      {alert && (
+        <div
+          className={`fixed top-8 right-4 z-50 px-6 py-3 rounded-xl shadow-lg text-base font-semibold animate-slideInRightToLeft
+            ${alert.type === 'error' ? 'bg-red-600 text-white' : alert.type === 'success' ? 'bg-green-600 text-white' : 'bg-blue-600 text-white'}`}
+          style={{
+            minWidth: '220px',
+            maxWidth: '90vw',
+            transition: 'transform 0.4s cubic-bezier(0.4,0,0.2,1), opacity 0.4s',
+          }}
+        >
+          {alert.message}
+        </div>
+      )}
     </div>
   );
 }
+
+/* Add this to your global CSS (e.g., globals.css):
+@keyframes slideInRightToLeft {
+  0% {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateX(-10%);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.animate-slideInRightToLeft {
+  animation: slideInRightToLeft 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+*/
