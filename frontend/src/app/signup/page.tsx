@@ -23,7 +23,7 @@ export default function SignUpPage() {
     setSuccessMsg("");
     setErrorMsg("");
     try {
-      const response = await api.post(`/users/register`, form);
+      const response = await api.post(`/api/v1/users/register`, form);
       if(response?.data?.info?.accessToken){
         localStorage.setItem('accessToken', response.data.info.accessToken);
       }

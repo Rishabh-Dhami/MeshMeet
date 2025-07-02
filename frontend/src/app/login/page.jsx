@@ -27,7 +27,7 @@ export default function LoginPage() {
     setErrorMsg("");
     setSuccessMsg("");
     try {
-      const response = await api.post("/users/login", form);
+      const response = await api.post("/api/v1/users/login", form);
       console.log(response)
       if (response?.data?.info?.accessToken) {
         localStorage.setItem("accessToken", response.data.info.accessToken);
