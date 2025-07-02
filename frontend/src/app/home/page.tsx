@@ -25,8 +25,7 @@ export default function Home() {
 
   const handleJoinMeeting = () => {
     if (meetingCode.trim()) {
-      // Handle joining meeting
-      console.log("Joining meeting:", meetingCode);
+      router.push(`/${meetingCode}`);
     }
   };
 
@@ -80,31 +79,9 @@ export default function Home() {
                   handleJoinMeeting();
                 }}
               >
-                {/* Mobile-only input section improvements */}
-                <div className="w-full flex flex-col gap-2 sm:hidden">
-                  <input
-                    type="text"
-                    placeholder="🔲 Code or link"
-                    value={meetingCode}
-                    onChange={(e) => setMeetingCode(e.target.value)}
-                    className="h-14 text-base px-5 border-2 border-blue-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 rounded-2xl bg-white/95 placeholder:text-gray-400 font-semibold transition-all duration-200 shadow-lg w-full text-center tracking-wide outline-none"
-                    inputMode="text"
-                    autoComplete="off"
-                    autoCorrect="off"
-                    spellCheck={false}
-                  />
-                  <button
-                    type="submit"
-                    className={`h-14 w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-200 flex items-center justify-center gap-2 text-lg ${
-                      isHovered ? "animate-pulse" : ""
-                    }`}
-                  >
-                    <span>Join Meeting</span>
-                    <ArrowRight className="w-6 h-6" />
-                  </button>
-                </div>
+                
                 {/* Desktop/tablet input section (unchanged) */}
-                <div className="hidden sm:flex flex-1 flex-row gap-3 w-full">
+                <div className=" sm:flex flex-1 flex-row gap-3 w-full">
                   <input
                     type="text"
                     placeholder="🔲 Code or link"
@@ -114,7 +91,8 @@ export default function Home() {
                   />
                   <button
                     type="submit"
-                    className={`h-12 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-200 flex items-center gap-2 w-full sm:w-auto justify-center ${
+                    onClick={() => handleJoinMeeting()}
+                    className={`h-12 mt-4 md:mt-0 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-200 flex items-center gap-2 w-full sm:w-auto justify-center ${
                       isHovered ? "animate-pulse" : ""
                     }`}
                   >
