@@ -1,11 +1,12 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
-  
   const [showHero, setShowHero] = useState(false);
   const [showImage, setShowImage] = useState(false);
+  const router = useRouter();
 
   // Ensure animations only run on client to avoid hydration mismatch
   useEffect(() => {
@@ -13,9 +14,19 @@ export default function Home() {
     setShowImage(true);
   }, []);
 
+  // Simulate authentication check (replace with your real logic)
+  const isLoggedIn = typeof window !== "undefined" && !!localStorage.getItem("accessToken");
+
+  const handleGetStarted = () => {
+    if (isLoggedIn) {
+      router.push("/home");
+    } else {
+      router.push("/login");
+    }
+  };
+
   return (
     <main className="w-full h-[100dvh] min-h-0 max-h-[100dvh] overflow-hidden  text-white flex flex-col">
-     
       <div className="flex-1 w-full flex flex-col-reverse lg:flex-row lg:justify-between items-center px-4 sm:px-8 md:px-12 lg:px-16 py-8 md:py-0 gap-8 lg:gap-0 justify-center">
         {/* Hero Text with animation from left */}
         <div className={`w-full lg:w-[55%] mb-6 lg:mb-0 flex flex-col items-center md:items-start text-center md:text-left ${showHero ? "animate-slideInLeft" : "opacity-0"}`}>
@@ -29,7 +40,10 @@ export default function Home() {
             interface.
           </p>
           <div className="flex  gap-4 w-full  justify-center lg:justify-start">
-            <button className="px-4 py-3 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-indigo-600 hover:to-purple-500 transition text-white font-bold shadow-lg text-base md:text-lg">
+            <button
+              className="px-4 py-3 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-indigo-600 hover:to-purple-500 transition text-white font-bold shadow-lg text-base md:text-lg"
+              onClick={handleGetStarted}
+            >
               Get Started
             </button>
           </div>
