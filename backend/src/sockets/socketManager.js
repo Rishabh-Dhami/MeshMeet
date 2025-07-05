@@ -30,7 +30,7 @@ function initSocket(server) {
 
       // Notify all users in the room about the new user
       connections[path].forEach((id) => {
-        io.to(id).emit("user-joined", socket.id);
+        io.to(id).emit("user-joined", socket.id, connections[path]);
       });
 
       // Send previous chat messages to the new user

@@ -9,7 +9,7 @@ dotenv.config();
 app.use(express.urlencoded({ extended: true, limit: "40kb" }));
 app.use(express.json({ limit: "40kb" }));
 app.use(cors({
-  origin: process.env.ORIGIN_URL, // or your frontend URL
+  origin: '*', // or your frontend URL
   credentials: true
 }));
 app.use(cookieParser());
