@@ -31,7 +31,7 @@ import io from "socket.io-client";
 import MeetingRoom from "@/components/MeetingRoom";
 import VideoPreviewSection from "@/components/VideoPreviewSection";
 import JoinMeetingCard from "@/components/JoinMeetingCard";
-import { PeerVideo, Participant, ChatMessage, SignalData } from "@/types/meeting";
+import { PeerVideo, Participant, Message, SignalData } from "@/types/meeting";
 
 declare global {
   interface Window {
@@ -59,7 +59,7 @@ export default function VideoMeeting() {
   const [audio, setAudio] = useState<MediaStream | undefined>();
   const [screen, setScreen] = useState<MediaStream | undefined>();
   const [showModel, setShowModel] = useState<boolean | undefined>();
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [message, setMessage] = useState<string>("");
   const [newMessages, setNewMessages] = useState<number>(3);
   const [askForUsername, setAskForUsername] = useState<boolean>(true);
@@ -172,11 +172,11 @@ export default function VideoMeeting() {
     sender: string,
     socketIdSender: string
   ): void => {
-    const newMessage: ChatMessage = {
-      id: Date.now().toString(),
+    const newMessage: Message = {
+      id: `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       sender,
       message: data,
-      timestamp: new Date(),
+      timestamp: Date.now(),
       isOwn: socketIdSender === socketIdRef.current,
     };
     
@@ -265,8 +265,6 @@ export default function VideoMeeting() {
                 const newVideo: PeerVideo = {
                   socketId: peerSocketId,
                   stream: event.streams[0],
-                  autoPlay: true,
-                  playsinline: true,
                   username: `User ${peerSocketId.slice(0, 4)}`,
                   isVideoEnabled: true,
                   isAudioEnabled: true,
@@ -281,10 +279,13 @@ export default function VideoMeeting() {
                 setParticipants((participants) => [
                   ...participants,
                   {
+                    id: peerSocketId,
+                    name: `User ${peerSocketId.slice(0, 4)}`,
                     socketId: peerSocketId,
                     username: `User ${peerSocketId.slice(0, 4)}`,
                     isVideoEnabled: true,
                     isAudioEnabled: true,
+                    joinedAt: Date.now(),
                   },
                 ]);
               }
@@ -335,10 +336,13 @@ export default function VideoMeeting() {
         // Add self to participants
         setParticipants([
           {
+            id: socketRef.current?.id || '',
+            name: userName,
             socketId: socketRef.current?.id || '',
             username: userName,
             isVideoEnabled: isVideoEnabled,
             isAudioEnabled: isAudioEnabled,
+            joinedAt: Date.now(),
           },
         ]);
       });

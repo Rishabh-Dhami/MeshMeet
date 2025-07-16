@@ -1,34 +1,42 @@
-export interface PeerVideo {
-  socketId: string;
-  stream: MediaStream;
-  autoPlay: boolean;
-  playsinline: boolean;
-  username?: string;
-  isVideoEnabled?: boolean;
-  isAudioEnabled?: boolean;
-}
-
-export interface Participant {
-  socketId: string;
-  username: string;
-  isVideoEnabled: boolean;
-  isAudioEnabled: boolean;
-  isScreenSharing?: boolean;
-}
-
-export interface ChatMessage {
+export interface Message {
   id: string;
   sender: string;
   message: string;
-  timestamp: Date;
-  isOwn?: boolean;
+  timestamp: number;
+  isOwn: boolean;
+  type?: 'text' | 'system';
+}
+
+export interface ChatMessage extends Message {}
+
+export interface SignalData {
+  sdp?: RTCSessionDescription;
+  ice?: RTCIceCandidate;
+}
+
+export interface PeerVideo {
+  socketId: string;
+  stream: MediaStream;
+  isVideoEnabled: boolean;
+  isAudioEnabled: boolean;
+  username?: string;
+}
+
+export interface Participant {
+  id: string;
+  name: string;
+  socketId?: string;
+  username?: string;
+  isVideoEnabled: boolean;
+  isAudioEnabled: boolean;
+  joinedAt: number;
 }
 
 export interface MeetingRoomProps {
   localStream: MediaStream | null;
   videos: PeerVideo[];
   participants: Participant[];
-  messages: ChatMessage[];
+  messages: Message[];
   onSendMessage: (message: string) => void;
   onToggleVideo: () => void;
   onToggleAudio: () => void;
@@ -40,8 +48,3 @@ export interface MeetingRoomProps {
   userName: string;
   meetingLink: string;
 }
-
-export type SignalData = {
-  sdp?: RTCSessionDescriptionInit;
-  ice?: RTCIceCandidateInit;
-}; 
